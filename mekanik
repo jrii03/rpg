@@ -1,0 +1,85 @@
+Konsep Utama: Life Grinder (Text-Based RPG Habit Tracker)
+Intinya: Tugas dunia nyata adalah quest buat naikin stat karakter.
+
+1. Mekanik "Simpel & Low Effort"
+Sistem Task Ringan:
+- Daily Quest (Bangun pagi, minum air, mandi - quest receh tapi wajib).
+- Main Quest (Kerjaan kantor, kuliah, project utama).
+- Side Quest (Cuci piring, baca buku 10 halaman).
+
+2. Karakter & Stat (Character Development)
+Karakter cuma berupa avatar card simpel (bisa pake pixel art minimalis atau badge teks) dengan 3 Stat Utama yang nyambung ke kehidupan nyata:
+- 🧠 INT (Intellectual): Naik tiap lo belajar, baca, atau ngerjain tugas kantor/coding.
+- 💪 STR (Strength): Naik tiap lo olahraga, push-up, atau jalan kaki.
+- 🛡️ VIT (Vitality): Naik tiap lo tidur cukup, makan sehat, atau meditasi.
+
+Setiap kali task dicentang, EXP masuk ke stat yang sesuai. Kalau stat naik, level naik, title karakter berubah.
+
+
+Sisi Teknis (No Heavy Framework)
+- Tech Stack: Murni HTML5, CSS (Vanilla / Tailwind cdn ringan), dan Vanilla JavaScript.
+- Database / Penyimpanan: Pake localStorage atau IndexedDB browser.
+- PWA Setup: Tinggal tambahin manifest.json dan Service Worker dasar biar bisa di-install lgsg ke HP (add to homescreen) berasa app beneran.
+
+penyeusaian dari segi logika game:
+Cara Kerja: Sistem Kalkulator Dinamis (INT, STR, VIT)
+Konsep dasarnya sederhana: Setiap task punya formula bobot sendiri. Jadi bukan XP instan, tapi multiplier berdasarkan input angka yang lo masukin pas nge-centang task.
+
+1. Kategori & Contoh Logika Kalkulasinya:
+🧠 INT (Intellectual) — Input: Menit / Jam
+Task: Belajar Bahasa Jepang / Coding / Baca Buku.
+Logika Kalkulator:1 menit = $+0.5$ INT EXP.
+Kalau input 20 menit, dapet $10$ EXP.Kalau lo gas 5 jam (300 menit), dapet $150$ EXP (bisa ditambahin bonus multiplier durasi panjang biar makin epik).
+
+💪 STR (Strength) — Input: Repetisi / Set / Menit
+ask: Push-up / Angkat Beban / Lari.
+Logika Kalkulator:1 Push-up = $+1$ STR EXP.
+Kalau lo input 50 reps, dapet $50$ EXP. Atau lari 30 menit, konversinya beda lagi.
+
+🛡️ VIT (Vitality) — Input: Angka Kuantitatif
+Task: Minum air / Tidur / Makan sehat.
+Logika Kalkulator:Minum 1 gelas air = $+2$ VIT. Kalau sehari minum 8 gelas, dapet $16$ VIT.
+Tidur = 1 jam = $+5$ VIT. Kalau tidur 7 jam, dapet $35$ VIT.
+
+⚙️ Logika Universal: 3 Tipe Input Dasar
+Alih-alih bikin rumus untuk tiap aktivitas spesifik, kita kelompokkan aja jadi 3 tipe input utama yang fleksibel dipakai ke apa aja:
+
+Tipe Waktu (Duration - Menit/Jam)
+
+Cocok untuk: INT (Belajar, Coding, Baca), STR (Yoga, Kardio/Lari), VIT (Meditasi).
+
+Cara kerja: 1 Menit = X Base EXP. Tinggal dikali durasi yang lo input.
+
+Tipe Hitungan/Repetisi (Count - Jumlah/Reps)
+
+Cocok untuk: STR (Push-up, Angkat beban, Pull-up), VIT (Gelas air, Vitamin).
+
+Cara kerja: 1 Unit/Rep = X Base EXP. (Misal: 1 Push-up bobotnya lebih gede dibanding 1 gelas air, tapi sama-sama pakai sistem hitungan angka).
+
+Tipe Skala Kualitas (Rating / Binary+ / Bobot Tetap)
+
+Cocok untuk: Hal yang susah dihitung angka persis tapi punya impact beda-beda.
+
+Contoh: Tidur (bukan cuma hitung jam, tapi kualitas), atau makan sehat. Bisa pakai sistem skala 1-5 atau pilihan (Misal: Tidur 8 jam + nyenyak = Porsi Maksimal).
+
+🧩 Contoh Praktis di Aplikasi Nanti:
+Task: Jalan Kaki PagiKategori: STR
+Tipe Input: Waktu (Menit) -> Lo isi 30 menit.
+Rumus: 30 menit $\times$ koefisien jalan kaki.
+
+Task: Push-upKategori: STR
+Tipe Input: Repetisi (Jumlah) -> Lo isi 40 reps.
+Rumus: 40 reps $\times$ koefisien beban tubuh (otomatis EXP STR yang didapat rasanya beda sama jalan kaki).
+
+🌟 1. Sisi Dopamin: Milestone & Gelar Berjenjang (Akumulasi Jam/Porsi)
+Sistemnya ngambil data total akumulasi dari input durasi/jumlah yang lu masukin selama ini.
+
+Cara Kerjanya: Di balik layar, app nyimpen total all-time hours untuk tiap aktivitas (misal: Total Belajar Bahasa Jepang = X jam).
+
+Contoh Implementasi:
+
+0 - 50 Jam: Title: Weaboo Pemula
+
+100 Jam: Title: Anak Kosan Sering Nonton Anime + Unlock Badge khusus warna emas di profil.
+
+500 Jam: Title: Resmi Nembus N4 + Efek visual glow tipis di kartu karakter lu.
