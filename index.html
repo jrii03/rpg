@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Life Grinder - RPG Habit Tracker</title>
+  <title>Life Grinder - RPG Habit & Skill Tracker</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d0f12">
+  <meta name="theme-color" content="#0a0c10">
 </head>
 <body class="tier-wood">
   <div class="app-container">
@@ -20,7 +20,7 @@
         <span class="brand-icon">⚔️</span>
         <span class="brand-title">LIFE GRINDER</span>
       </div>
-      <div class="date-badge" id="current-date-badge">Sabtu, 31 Okt</div>
+      <div class="date-badge" id="current-date-badge">Senin, 02 Nov</div>
     </header>
 
     <!-- CHARACTER CARD -->
@@ -35,7 +35,7 @@
 
         <div class="char-details">
           <div class="char-identity">
-            <h2 class="char-name" id="char-name">Player One</h2>
+            <h2 class="char-name" id="char-name" title="Klik untuk ubah nama">Player One</h2>
             <div class="char-title-tag" id="char-title">Novice Grinder</div>
           </div>
           
@@ -49,8 +49,8 @@
       <!-- EXP BAR -->
       <div class="exp-section">
         <div class="exp-meta">
-          <span>EXP</span>
-          <span id="exp-text">0 / 100 XP</span>
+          <span>PROGRESS LEVEL</span>
+          <span id="exp-text">0 / 200 XP</span>
         </div>
         <div class="exp-track">
           <div class="exp-fill" id="exp-fill" style="width: 0%;"></div>
@@ -77,87 +77,67 @@
       </div>
     </section>
 
+    <!-- FLOATING XP TOAST CONTAINER -->
+    <div id="toast-container" class="toast-container"></div>
+
     <!-- TAB NAVIGATION -->
     <nav class="tab-nav">
       <button class="tab-btn active" data-tab="tab-grind">
-        <span class="tab-icon">⚡</span> Daily Grind
+        <span class="tab-icon">⚔️</span> Grind Station
       </button>
       <button class="tab-btn" data-tab="tab-dashboard">
-        <span class="tab-icon">📊</span> Dashboard
+        <span class="tab-icon">📊</span> Dashboard & Log
       </button>
     </nav>
 
     <!-- MAIN VIEW -->
     <main class="tab-content">
       
-      <!-- TAB 1: DAILY GRIND (QUEST BOARD) -->
+      <!-- TAB 1: GRIND STATION -->
       <div class="tab-pane active" id="tab-grind">
-        
-        <!-- SECTION: MAIN QUEST -->
-        <div class="quest-section">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-badge badge-main">MAIN QUEST</span>
-              <span class="section-hint">+200 XP • Fokus Hari Ini</span>
-            </div>
-            <button class="add-quest-btn" data-quest-type="main" title="Tambah Main Quest">+ Add</button>
+        <div class="grind-header-bar">
+          <div>
+            <h3 class="grind-bar-title">Stasiun Aktivitas</h3>
+            <p class="grind-bar-desc">Catat sesi kapan saja. XP dihitung adil sesuai bobot usaha.</p>
           </div>
-          <div class="quest-list" id="main-quest-list">
-            <!-- Injected by JS -->
-          </div>
+          <button class="btn btn-primary btn-sm" id="btn-add-activity">+ Tambah Aktivitas</button>
         </div>
 
-        <!-- SECTION: DAILY QUEST -->
-        <div class="quest-section">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-badge badge-daily">DAILY QUEST</span>
-              <span class="section-hint">+40 XP • Rutinitas Wajib</span>
-            </div>
-            <button class="add-quest-btn" data-quest-type="daily" title="Tambah Daily Quest">+ Add</button>
-          </div>
-          <div class="quest-list" id="daily-quest-list">
-            <!-- Injected by JS -->
-          </div>
-        </div>
-
-        <!-- SECTION: SIDE QUEST -->
-        <div class="quest-section">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-badge badge-side">SIDE QUEST</span>
-              <span class="section-hint">+15 XP • Tugas Santai</span>
-            </div>
-            <button class="add-quest-btn" data-quest-type="side" title="Tambah Side Quest">+ Add</button>
-          </div>
-          <div class="quest-list" id="side-quest-list">
-            <!-- Injected by JS -->
-          </div>
-        </div>
-
-        <div class="reset-note">
-          ⏳ Quest otomatis uncheck tiap jam 00:00 (Tengah Malam).
+        <div class="grind-cards-list" id="grind-cards-list">
+          <!-- Injected dynamically by JS -->
         </div>
       </div>
 
-      <!-- TAB 2: DASHBOARD (ACCUMULATION & TITLES) -->
+      <!-- TAB 2: DASHBOARD & LOGS -->
       <div class="tab-pane" id="tab-dashboard">
+        
+        <!-- LIFETIME ACCUMULATION -->
         <div class="dashboard-section">
-          <h3 class="dash-heading">📈 Akumulasi Aktivitas (Lifetime)</h3>
+          <h3 class="dash-heading">📈 Akumulasi Total (Lifetime)</h3>
           <div class="activity-grid" id="activity-grid">
             <!-- Injected by JS -->
           </div>
         </div>
 
+        <!-- RECENT GRIND LOG (ACTIVITY FEED) -->
         <div class="dashboard-section">
-          <h3 class="dash-heading">🏆 Gelar & Pangkat (Milestones)</h3>
+          <h3 class="dash-heading">📜 Riwayat Sesi Terbaru</h3>
+          <div class="log-feed" id="log-feed">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- MILESTONES -->
+        <div class="dashboard-section">
+          <h3 class="dash-heading">🏆 Pangkat & Gelar (Milestones)</h3>
           <div class="milestones-list" id="milestones-list">
             <!-- Injected by JS -->
           </div>
         </div>
 
+        <!-- DATA BACKUP / RESTORE -->
         <div class="dashboard-section">
-          <h3 class="dash-heading">⚙️ Data & Pengaturan</h3>
+          <h3 class="dash-heading">⚙️ Cadangan Data</h3>
           <div class="settings-actions">
             <button class="btn btn-secondary" id="btn-export-data">📥 Export Data (Backup JSON)</button>
             <button class="btn btn-secondary" id="btn-import-trigger">📤 Import Data (Restore JSON)</button>
@@ -165,97 +145,98 @@
             <button class="btn btn-danger" id="btn-reset-data">⚠️ Reset Semua Progres</button>
           </div>
         </div>
+
       </div>
 
     </main>
   </div>
 
-  <!-- MODAL CHECK-IN (EFFORT INPUT) -->
-  <div class="modal-backdrop" id="modal-checkin" style="display: none;">
+  <!-- MODAL: GRIND / LOG SESSION -->
+  <div class="modal-backdrop" id="modal-grind" style="display: none;">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modal-checkin-title">Lapor Selesai Quest</h3>
-        <button class="btn-close" id="btn-close-checkin">&times;</button>
+        <h3 id="modal-grind-title">Catat Sesi Grind</h3>
+        <button class="btn-close" id="btn-close-grind">&times;</button>
       </div>
       <div class="modal-body">
-        <p class="modal-sub" id="modal-checkin-questname">Quest: Coding 1 Sesi</p>
-        <p class="modal-prompt" id="modal-checkin-prompt">Masukkan durasi waktu yang kamu selesaikan:</p>
+        <p class="modal-sub" id="modal-grind-activity-name">Aktivitas: Immersion Manga</p>
+        <p class="modal-prompt" id="modal-grind-prompt">Berapa jumlah yang kamu selesaikan?</p>
         
         <div class="input-wrap">
-          <input type="number" id="checkin-value" min="1" placeholder="30" class="input-field" autofocus>
-          <span class="input-unit" id="checkin-unit">Menit</span>
+          <input type="number" id="grind-input-value" min="1" placeholder="1" class="input-field" autofocus>
+          <span class="input-unit" id="grind-input-unit">Chapter</span>
         </div>
 
-        <!-- Quick Presets -->
-        <div class="quick-presets" id="quick-presets">
-          <!-- Injected dynamically based on inputType -->
+        <!-- Dynamic Quick Presets -->
+        <div class="quick-presets" id="grind-presets">
+          <!-- Injected dynamically -->
         </div>
 
         <div class="rewards-preview">
-          <div class="reward-tag" id="preview-stat-reward">+1 INT</div>
-          <div class="reward-tag" id="preview-xp-reward">+200 XP</div>
+          <div class="reward-tag" id="preview-grind-stat">+1 INT</div>
+          <div class="reward-tag" id="preview-grind-xp">+10 XP</div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost" id="btn-cancel-checkin">Batal</button>
-        <button class="btn btn-primary" id="btn-confirm-checkin">Selesaikan Quest! ⚔️</button>
+        <button class="btn btn-ghost" id="btn-cancel-grind">Batal</button>
+        <button class="btn btn-primary" id="btn-confirm-grind">Klaim XP & Simpan ⚔️</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL TAMBAH / EDIT QUEST -->
-  <div class="modal-backdrop" id="modal-quest" style="display: none;">
+  <!-- MODAL: TAMBAH / EDIT AKTIVITAS DENGAN PRESET REGISTRY -->
+  <div class="modal-backdrop" id="modal-activity" style="display: none;">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modal-quest-title">Tambah Quest Baru</h3>
-        <button class="btn-close" id="btn-close-quest">&times;</button>
+        <h3 id="modal-activity-title">Tambah Aktivitas Baru</h3>
+        <button class="btn-close" id="btn-close-activity">&times;</button>
       </div>
       <div class="modal-body">
-        <input type="hidden" id="quest-form-id">
+        <input type="hidden" id="form-act-id">
         
+        <!-- DROPDOWN PRESET TEMPLATE -->
         <div class="form-group">
-          <label>Judul Quest</label>
-          <input type="text" id="quest-form-name" class="input-field" placeholder="Misal: Belajar Bahasa Jepang / Push-up">
+          <label>Pilih Template Satuan (Siap Pakai)</label>
+          <select id="form-act-preset" class="input-field">
+            <!-- Injected dynamically from UNIT_PRESETS in app.js -->
+          </select>
+          <small class="field-hint">Pilih template di atas untuk otomatis mengisi stat & bobot XP yang pas.</small>
         </div>
 
         <div class="form-group">
-          <label>Tipe Quest</label>
-          <select id="quest-form-type" class="input-field">
-            <option value="main">Main Quest (+200 XP - Berat/Fokus Utama)</option>
-            <option value="daily">Daily Quest (+40 XP - Rutinitas Harian)</option>
-            <option value="side">Side Quest (+15 XP - Tugas Santai)</option>
-          </select>
+          <label>Nama Aktivitas</label>
+          <input type="text" id="form-act-name" class="input-field" placeholder="Misal: Baca Manga / Belajar Coding / Push-up">
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label>Stat yang Dituju</label>
-            <select id="quest-form-stat" class="input-field">
-              <option value="INT">🧠 INT (Mikir/Belajar)</option>
-              <option value="STR">💪 STR (Fisik/Olahraga)</option>
-              <option value="VIT">🛡️ VIT (Kesehatan/Hidup)</option>
+            <label>Pilar Stat</label>
+            <select id="form-act-stat" class="input-field">
+              <option value="INT">🧠 INT (Mikir / Belajar)</option>
+              <option value="STR">💪 STR (Fisik / Olahraga)</option>
+              <option value="VIT">🛡️ VIT (Kesehatan / Hidup)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Tipe Input</label>
-            <select id="quest-form-input" class="input-field">
-              <option value="duration">⏱️ Waktu (Menit)</option>
-              <option value="count">🔢 Hitungan (Reps/Gelas)</option>
-              <option value="quality">⭐ Skala Kualitas (1-5)</option>
-            </select>
+            <label>Nama Satuan</label>
+            <input type="text" id="form-act-unit" class="input-field" placeholder="Misal: Chapter / KM / Reps / Jam">
           </div>
         </div>
 
         <div class="form-group">
-          <label>Kategori Aktivitas (Untuk Akumulasi Jam/Reps)</label>
-          <input type="text" id="quest-form-activity" class="input-field" placeholder="Misal: Coding / Olahraga / Membaca / Minum Air">
-          <small class="field-hint">Aktivitas dengan nama sama akan digabung total akumulasinya di Dashboard.</small>
+          <label>Bobot XP per Satuan</label>
+          <div class="input-wrap">
+            <input type="number" id="form-act-xp" min="1" class="input-field" placeholder="10">
+            <span class="input-unit">XP / Unit</span>
+          </div>
+          <small class="field-hint" id="form-act-calc-hint">Contoh: Input 3 Unit $\times$ 10 XP = +30 XP</small>
         </div>
+
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost" id="btn-cancel-quest">Batal</button>
-        <button class="btn btn-primary" id="btn-save-quest">Simpan Quest</button>
+        <button class="btn btn-ghost" id="btn-cancel-activity">Batal</button>
+        <button class="btn btn-primary" id="btn-save-activity">Simpan Aktivitas</button>
       </div>
     </div>
   </div>
